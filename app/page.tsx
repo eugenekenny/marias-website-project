@@ -14,7 +14,7 @@ export default function Home() {
           <div className="hidden md:flex gap-8 text-sm font-medium">
             <a href="#about" className="hover:text-[#B8960C] transition-colors">About</a>
             <a href="#why" className="hover:text-[#B8960C] transition-colors">Why Maria</a>
-            <a href="#services" className="hover:text-[#B8960C] transition-colors">Services</a>
+            <Link href="/listings" className="hover:text-[#B8960C] transition-colors">Listings</Link>
             <a href="#contact" className="hover:text-[#B8960C] transition-colors">Contact</a>
           </div>
           <a
