@@ -1,31 +1,12 @@
 import Link from "next/link";
+import Navbar from "./components/Navbar";
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
 
       {/* ── NAVBAR ── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#1a2744] text-white shadow-lg">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex flex-col leading-tight">
-            <span className="text-lg font-bold tracking-wide">Maria Navin-Lassiter</span>
-            <span className="text-xs text-[#B8960C] tracking-widest uppercase">Century 21 Real Estate</span>
-          </div>
-          <div className="hidden md:flex gap-8 text-sm font-medium">
-            <a href="#about" className="hover:text-[#B8960C] transition-colors">About</a>
-            <a href="#why" className="hover:text-[#B8960C] transition-colors">Why Maria</a>
-            <Link href="/listings" className="hover:text-[#B8960C] transition-colors">Listings</Link>
-            <Link href="/mortgage-calculator" className="hover:text-[#B8960C] transition-colors">Calculator</Link>
-            <a href="#contact" className="hover:text-[#B8960C] transition-colors">Contact</a>
-          </div>
-          <a
-            href="tel:7204011889"
-            className="bg-[#B8960C] hover:bg-yellow-600 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors"
-          >
-            (720) 401-1889
-          </a>
-        </div>
-      </nav>
+      <Navbar activePage="home" />
 
       {/* ── HERO ── */}
       <section className="pt-32 pb-24 bg-gradient-to-br from-[#1a2744] to-[#2c3e6b] text-white">
