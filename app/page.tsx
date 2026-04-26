@@ -59,14 +59,13 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Photo placeholder */}
+          {/* Maria's photo */}
           <div className="flex-shrink-0">
-            <div className="w-64 h-80 md:w-80 md:h-96 rounded-2xl bg-[#2c3e6b] border-4 border-[#B8960C] flex items-center justify-center shadow-2xl">
-              <div className="text-center text-blue-300">
-                <div className="text-6xl mb-3">👩</div>
-                <p className="text-sm">Photo Coming Soon</p>
-              </div>
-            </div>
+            <img
+              src="/Maria.jpg"
+              alt="Maria Navin-Lassiter - Century 21 Real Estate Agent"
+              className="w-64 h-80 md:w-80 md:h-96 rounded-2xl border-4 border-[#B8960C] object-cover object-top shadow-2xl"
+            />
           </div>
         </div>
       </section>
