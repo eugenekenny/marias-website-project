@@ -264,12 +264,13 @@ export default function Home() {
 
           {/* Form */}
           <div className="flex-1 bg-gray-50 rounded-2xl p-8 border border-gray-100">
-            <form className="space-y-4">
+            <form action="https://formspree.io/f/xpqkezor" method="POST" className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
                   <input
                     type="text"
+                    name="first_name"
                     className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#B8960C] bg-white"
                     placeholder="Jane"
                   />
@@ -278,6 +279,7 @@ export default function Home() {
                   <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
                   <input
                     type="text"
+                    name="last_name"
                     className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#B8960C] bg-white"
                     placeholder="Smith"
                   />
@@ -287,6 +289,7 @@ export default function Home() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                 <input
                   type="email"
+                  name="email"
                   className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#B8960C] bg-white"
                   placeholder="jane@example.com"
                 />
@@ -295,13 +298,14 @@ export default function Home() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
                 <input
                   type="tel"
+                  name="phone"
                   className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#B8960C] bg-white"
                   placeholder="(720) 000-0000"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">I&apos;m interested in...</label>
-                <select className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#B8960C] bg-white">
+                <select name="interest" className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#B8960C] bg-white">
                   <option>Buying a home</option>
                   <option>Selling my home</option>
                   <option>Real estate investment</option>
@@ -312,6 +316,7 @@ export default function Home() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
                 <textarea
                   rows={4}
+                  name="message"
                   className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#B8960C] bg-white resize-none"
                   placeholder="Tell me a little about what you're looking for..."
                 />
