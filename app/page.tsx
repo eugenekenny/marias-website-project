@@ -26,7 +26,7 @@ export default function Home() {
           {/* Text */}
           <div className="flex-1 text-center md:text-left">
             <p className="animate-fadeInUp delay-100 text-[#C9A84C] uppercase tracking-widest text-sm font-semibold mb-4">
-              Denver &amp; Surrounding Areas · Century 21
+              Denver &amp; Surrounding Areas · Century 21 Moore Real Estate
             </p>
             <h1 className="animate-fadeInUp delay-200 font-playfair text-5xl md:text-7xl font-bold leading-tight mb-6">
               Home is<br />
@@ -34,7 +34,7 @@ export default function Home() {
               <span className="text-3xl md:text-4xl font-normal">Let&apos;s Find Yours.</span>
             </h1>
             <p className="animate-fadeInUp delay-300 text-lg text-blue-100 mb-8 max-w-lg leading-relaxed">
-              With 25 years of real estate experience in the Denver metro area,
+              With 20+ years of real estate experience in the Denver metro area,
               Maria Navin-Lassiter brings expertise, dedication, and a personal
               touch to every transaction.
             </p>
@@ -65,7 +65,7 @@ export default function Home() {
               />
               {/* Badge */}
               <div className="absolute -bottom-4 -right-4 bg-[#C9A84C] text-white rounded-xl px-4 py-2 shadow-lg text-center">
-                <div className="font-playfair font-bold text-2xl">25+</div>
+                <div className="font-playfair font-bold text-2xl">20+</div>
                 <div className="text-xs uppercase tracking-wide">Years Experience</div>
               </div>
             </div>
@@ -84,7 +84,7 @@ export default function Home() {
       <section className="bg-[#C9A84C] text-white py-10">
         <div className="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           {[
-            { number: "25+", label: "Years Experience" },
+            { number: "20+", label: "Years Experience" },
             { number: "500+", label: "Homes Sold" },
             { number: "Denver", label: "Metro Area" },
             { number: "C21", label: "Century 21 Agent" },
@@ -106,14 +106,14 @@ export default function Home() {
               Your Denver<br />Real Estate Expert
             </h2>
             <p className="text-gray-600 text-lg leading-relaxed mb-4">
-              Maria Navin-Lassiter has spent over 25 years helping families
+              Maria Navin-Lassiter has spent over 20 years helping families
               across Denver and the surrounding communities buy, sell, and invest
               in real estate. Her deep knowledge of the local market, combined
               with her genuine care for every client, makes her the agent people
               call first — and refer to friends and family.
             </p>
             <p className="text-gray-600 text-lg leading-relaxed mb-8">
-              Now with Century 21, Maria brings the same trusted, personal
+              Now with Century 21 Moore Real Estate, Maria brings the same trusted, personal
               approach she&apos;s always been known for — backed by one of the
               world&apos;s most recognized real estate brands.
             </p>
@@ -128,10 +128,10 @@ export default function Home() {
             <div className="bg-gray-50 rounded-3xl p-8 border border-gray-100 shadow-sm">
               <ul className="space-y-5">
                 {[
-                  "25+ years of Denver real estate experience",
+                  "20+ years of Colorado real estate experience",
                   "Expertise in buying, selling & investing",
                   "Deep knowledge of Denver metro neighborhoods",
-                  "Certified Century 21 agent",
+                  "Century 21 Moore Real Estate agent",
                   "Dedicated to first-time buyers & seasoned investors alike",
                   "Responsive, honest, and always in your corner",
                 ].map((item) => (
@@ -155,12 +155,12 @@ export default function Home() {
           </ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { icon: "🏡", title: "Local Expertise", desc: "Born and raised in the Denver area, Maria knows every neighborhood, school district, and hidden gem — so you don't have to." },
+              { icon: "🏡", title: "Local Expertise", desc: "Raised in Westminster, Colorado, Maria has spent her life in this state and knows every neighborhood, school district, and hidden gem the Denver metro has to offer." },
               { icon: "🤝", title: "Personal Service", desc: "You're not just a transaction. Maria takes time to understand your goals, your timeline, and what home truly means to you." },
-              { icon: "📈", title: "Proven Results", desc: "25 years of closings, negotiations, and happy clients. Maria knows how to get deals done — even in tough markets." },
+              { icon: "📈", title: "Proven Results", desc: "20+ years of closings, negotiations, and happy clients. Maria knows how to get deals done — even in tough markets." },
               { icon: "📞", title: "Always Available", desc: "Real estate doesn't run 9 to 5. Maria is accessible, responsive, and will never leave you guessing about where things stand." },
               { icon: "💡", title: "Market Knowledge", desc: "From pricing strategy to timing, Maria uses real data and decades of experience to guide every decision you make." },
-              { icon: "⭐", title: "Century 21 Backed", desc: "All the personal service of a local agent, powered by one of the world's largest and most trusted real estate networks." },
+              { icon: "⭐", title: "Century 21 Moore Real Estate", desc: "All the personal service of a local agent, backed by the Moore Real Estate team and one of the world's most trusted real estate brands." },
             ].map((card, i) => (
               <ScrollReveal key={card.title} delay={i * 80}>
                 <div className="bg-white rounded-2xl p-7 shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all h-full">
@@ -291,7 +291,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
           <div>
             <div className="font-playfair text-white font-bold text-lg">Maria Navin-Lassiter</div>
-            <div className="text-[#C9A84C] text-xs uppercase tracking-widest">Century 21 Real Estate · Denver, CO</div>
+            <div className="text-[#C9A84C] text-xs uppercase tracking-widest">Century 21 Moore Real Estate · Denver, CO</div>
           </div>
           <div className="flex gap-6">
             <a href="#about" className="hover:text-white transition-colors">About</a>

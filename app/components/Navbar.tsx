@@ -25,7 +25,7 @@ export default function Navbar({ activePage }: NavbarProps) {
         {/* Logo / Name */}
         <Link href="/" className="flex flex-col leading-tight">
           <span className="text-lg font-bold tracking-wide">Maria Navin-Lassiter</span>
-          <span className="text-xs text-[#B8960C] tracking-widest uppercase">Century 21 Real Estate</span>
+          <span className="text-xs text-[#B8960C] tracking-widest uppercase">Century 21 Moore Real Estate</span>
         </Link>
 
         {/* Desktop Links */}

@@ -15,9 +15,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Maria Navin-Lassiter | Century 21 Real Estate | Denver, CO",
+  title: "Maria Navin-Lassiter | Century 21 Moore Real Estate | Denver, CO",
   description:
-    "25 years of real estate experience serving Denver and surrounding areas. Call Maria Navin-Lassiter at (720) 401-1889.",
+    "20+ years of real estate experience serving Denver and surrounding areas. Call Maria Navin-Lassiter at (720) 401-1889.",
 };
 
 export default function RootLayout({
