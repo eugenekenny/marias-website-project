@@ -249,11 +249,11 @@ export default function Home() {
                 <span className="text-lg font-semibold">(720) 401-1889</span>
               </a>
               <a
-                href="mailto:marianavinlassiter1966@gmail.com"
+                href="mailto:contact@mariacoloradorealty.com"
                 className="flex items-center gap-4 text-[#1a2744] hover:text-[#B8960C] transition-colors group"
               >
                 <span className="w-12 h-12 bg-gray-100 group-hover:bg-[#B8960C] group-hover:text-white rounded-full flex items-center justify-center text-xl transition-colors">✉️</span>
-                <span className="text-lg font-semibold">marianavinlassiter1966@gmail.com</span>
+                <span className="text-lg font-semibold">contact@mariacoloradorealty.com</span>
               </a>
               <div className="flex items-center gap-4 text-[#1a2744]">
                 <span className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-xl">📍</span>
