@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 import WalkScoreWidget from "../components/WalkScoreWidget";
@@ -39,11 +42,24 @@ const listings = [
     },
     century21Link:
       "https://www.century21.com/homes/detail/co/brighton/4231-prairie-dr/lid-P00800000H85eMRQeLrYKjZB0F9LyXKw0iAOChhJ",
-    photo: "/prairie-kitchen.jpg",
+    photos: [
+      "/listings/prairie-drive/01-exterior.jpg",
+      "/listings/prairie-drive/02-living-room.jpg",
+      "/listings/prairie-drive/03-kitchen.jpg",
+      "/listings/prairie-drive/04-kitchen-2.jpg",
+      "/listings/prairie-drive/05-backyard.jpg",
+      "/listings/prairie-drive/06-backyard-2.jpg",
+    ],
   },
 ];
 
 export default function Listings() {
+  const [activePhoto, setActivePhoto] = useState<Record<number, number>>({});
+
+  const getPhoto = (id: number) => activePhoto[id] ?? 0;
+  const setPhoto = (id: number, idx: number) =>
+    setActivePhoto((prev) => ({ ...prev, [id]: idx }));
+
   return (
     <div className="min-h-screen bg-gray-50">
 
@@ -72,25 +88,57 @@ export default function Listings() {
               key={listing.id}
               className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-10"
             >
-              {/* Photo */}
+              {/* Photo Gallery */}
               <div className="relative">
-                {listing.photo ? (
-                  <img
-                    src={listing.photo}
-                    alt={listing.address}
-                    className="w-full h-72 object-cover"
-                  />
+                {listing.photos && listing.photos.length > 0 ? (
+                  <div>
+                    {/* Main Photo */}
+                    <div className="relative">
+                      <img
+                        src={listing.photos[getPhoto(listing.id)]}
+                        alt={`${listing.address} - photo ${getPhoto(listing.id) + 1}`}
+                        className="w-full h-96 object-cover transition-all duration-300"
+                      />
+                      {/* Prev / Next arrows */}
+                      {listing.photos.length > 1 && (
+                        <>
+                          <button
+                            onClick={() => setPhoto(listing.id, (getPhoto(listing.id) - 1 + listing.photos.length) % listing.photos.length)}
+                            className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 flex items-center justify-center text-lg transition-colors"
+                          >‹</button>
+                          <button
+                            onClick={() => setPhoto(listing.id, (getPhoto(listing.id) + 1) % listing.photos.length)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 flex items-center justify-center text-lg transition-colors"
+                          >›</button>
+                        </>
+                      )}
+                      {/* Photo counter */}
+                      <span className="absolute bottom-3 right-3 bg-black/50 text-white text-xs px-2 py-1 rounded-full">
+                        {getPhoto(listing.id) + 1} / {listing.photos.length}
+                      </span>
+                    </div>
+                    {/* Thumbnail Strip */}
+                    <div className="flex gap-2 p-3 bg-gray-50 overflow-x-auto">
+                      {listing.photos.map((photo, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setPhoto(listing.id, idx)}
+                          className={`flex-shrink-0 w-20 h-16 rounded-lg overflow-hidden border-2 transition-all ${
+                            getPhoto(listing.id) === idx ? "border-[#C9A84C]" : "border-transparent opacity-60 hover:opacity-100"
+                          }`}
+                        >
+                          <img src={photo} alt={`thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 ) : (
                   <div className="w-full h-72 bg-gradient-to-br from-[#1a2744] to-[#2c3e6b] flex items-center justify-center">
                     <div className="text-center text-blue-300">
                       <div className="text-5xl mb-2">🏡</div>
                       <p className="text-sm">Photos Coming Soon</p>
-                      <a
-                        href={listing.century21Link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-3 inline-block text-[#B8960C] text-sm underline hover:text-yellow-400"
-                      >
+                      <a href={listing.century21Link} target="_blank" rel="noopener noreferrer"
+                        className="mt-3 inline-block text-[#B8960C] text-sm underline hover:text-yellow-400">
                         View on Century 21 →
                       </a>
                     </div>
