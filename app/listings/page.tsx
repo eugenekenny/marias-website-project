@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Navbar from "../components/Navbar";
+import WalkScoreWidget from "../components/WalkScoreWidget";
 
 const listings = [
   {
@@ -180,6 +181,15 @@ export default function Listings() {
                       </div>
                     </div>
                   </div>
+                </div>
+
+                {/* Walk Score Widget */}
+                <div className="mb-6">
+                  <h3 className="font-bold text-[#1a2744] mb-3">🚶 Neighborhood Scores</h3>
+                  <WalkScoreWidget
+                    address="4231 Prairie Drive, Brighton, CO 80601"
+                    wsid="gff2493c6bfd7457685c8216aca04225c"
+                  />
                 </div>
 
                 {/* CTA buttons */}
