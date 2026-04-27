@@ -26,7 +26,7 @@ export default function Home() {
           {/* Text */}
           <div className="flex-1 text-center md:text-left">
             <p className="animate-fadeInUp delay-100 text-[#C9A84C] uppercase tracking-widest text-sm font-semibold mb-4">
-              Denver &amp; Surrounding Areas · Century 21 | The Moore Team
+              Denver &amp; Surrounding Areas · Century 21
             </p>
             <h1 className="animate-fadeInUp delay-200 font-playfair text-5xl md:text-7xl font-bold leading-tight mb-6">
               Home is<br />
