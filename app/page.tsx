@@ -26,7 +26,7 @@ export default function Home() {
           {/* Text */}
           <div className="flex-1 text-center md:text-left">
             <p className="animate-fadeInUp delay-100 text-[#C9A84C] uppercase tracking-widest text-sm font-semibold mb-4">
-              Denver &amp; Surrounding Areas · Century 21
+              Denver &amp; Surrounding Areas · Century 21 Moore Real Estate
             </p>
             <h1 className="animate-fadeInUp delay-200 font-playfair text-5xl md:text-7xl font-bold leading-tight mb-6">
               Home is<br />
@@ -113,7 +113,7 @@ export default function Home() {
               call first — and refer to friends and family.
             </p>
             <p className="text-gray-600 text-lg leading-relaxed mb-8">
-              Now with Century 21 | The Moore Team, Maria brings the same trusted, personal
+              Now with Century 21 Moore Real Estate, Maria brings the same trusted, personal
               approach she&apos;s always been known for — backed by one of the
               world&apos;s most recognized real estate brands.
             </p>
@@ -131,7 +131,7 @@ export default function Home() {
                   "20+ years of Colorado real estate experience",
                   "Expertise in buying, selling & investing",
                   "Deep knowledge of Denver metro neighborhoods",
-                  "Century 21 | The Moore Team agent",
+                  "Century 21 Moore Real Estate agent",
                   "Dedicated to first-time buyers & seasoned investors alike",
                   "Responsive, honest, and always in your corner",
                 ].map((item) => (
@@ -160,7 +160,7 @@ export default function Home() {
               { icon: "📈", title: "Proven Results", desc: "20+ years of closings, negotiations, and happy clients. Maria knows how to get deals done — even in tough markets." },
               { icon: "📞", title: "Always Available", desc: "Real estate doesn't run 9 to 5. Maria is accessible, responsive, and will never leave you guessing about where things stand." },
               { icon: "💡", title: "Market Knowledge", desc: "From pricing strategy to timing, Maria uses real data and decades of experience to guide every decision you make." },
-              { icon: "⭐", title: "Century 21 | The Moore Team", desc: "All the personal service of a local agent, backed by the Moore Real Estate team and one of the world's most trusted real estate brands." },
+              { icon: "⭐", title: "Century 21 Moore Real Estate", desc: "All the personal service of a local agent, backed by the Moore Real Estate team and one of the world's most trusted real estate brands." },
             ].map((card, i) => (
               <ScrollReveal key={card.title} delay={i * 80}>
                 <div className="bg-white rounded-2xl p-7 shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all h-full">
@@ -291,7 +291,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
           <div>
             <div className="font-playfair text-white font-bold text-lg">Maria Navin-Lassiter</div>
-            <div className="text-[#C9A84C] text-xs uppercase tracking-widest">Century 21 | The Moore Team · Denver, CO</div>
+            <div className="text-[#C9A84C] text-xs uppercase tracking-widest">Century 21 Moore Real Estate · Denver, CO</div>
           </div>
           <div className="flex gap-6">
             <a href="#about" className="hover:text-white transition-colors">About</a>
