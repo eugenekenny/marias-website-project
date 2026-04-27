@@ -39,7 +39,7 @@ const listings = [
     },
     century21Link:
       "https://www.century21.com/homes/detail/co/brighton/4231-prairie-dr/lid-P00800000H85eMRQeLrYKjZB0F9LyXKw0iAOChhJ",
-    photo: null, // Add photo URL here when available
+    photo: "/prairie-kitchen.jpg",
   },
 ];
 
