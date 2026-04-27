@@ -306,7 +306,7 @@ export default function MortgageCalculator() {
           <p className="text-xs text-gray-400 text-center leading-relaxed">
             * This calculator provides estimates for informational purposes only and does not constitute financial advice.
             Actual loan terms, interest rates, taxes, and insurance costs may vary. Contact a licensed lender for accurate figures.
-            Maria Navin-Lassiter · Century 21 Moore Team · Denver, CO
+            Maria Navin-Lassiter · Century 21 | The Moore Team · Denver, CO
           </p>
         </div>
       </section>
@@ -315,7 +315,7 @@ export default function MortgageCalculator() {
       <footer className="bg-[#1a2744] text-blue-200 py-10">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
           <div>
-            <span className="font-bold text-white">Maria Navin-Lassiter</span> · Century 21 Moore Team
+            <span className="font-bold text-white">Maria Navin-Lassiter</span> · Century 21 | The Moore Team
           </div>
           <div className="flex gap-6">
             <Link href="/" className="hover:text-white transition-colors">Home</Link>

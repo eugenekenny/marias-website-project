@@ -215,7 +215,7 @@ export default function Listings() {
       <footer className="bg-[#1a2744] text-blue-200 py-10">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
           <div>
-            <span className="font-bold text-white">Maria Navin-Lassiter</span> · Century 21 Moore Team
+            <span className="font-bold text-white">Maria Navin-Lassiter</span> · Century 21 | The Moore Team
           </div>
           <div className="flex gap-6">
             <Link href="/" className="hover:text-white transition-colors">Home</Link>
