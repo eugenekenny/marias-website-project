@@ -232,13 +232,18 @@ export default function Home() {
                   <div className="text-lg font-semibold">contact@mariacoloradorealty.com</div>
                 </div>
               </a>
-              <div className="flex items-center gap-4 text-[#1a2744]">
+              <a
+                href="https://www.google.com/maps/place/Denver,+CO"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-4 text-[#1a2744] hover:text-[#C9A84C] transition-colors"
+              >
                 <span className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center text-xl shadow-sm">📍</span>
                 <div>
                   <div className="text-xs text-gray-400 uppercase tracking-wide">Service Area</div>
                   <div className="text-lg font-semibold">Denver, CO &amp; Surrounding Areas</div>
                 </div>
-              </div>
+              </a>
             </div>
           </ScrollReveal>
 
