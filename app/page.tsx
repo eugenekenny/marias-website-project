@@ -107,7 +107,8 @@ export default function Home() {
             </h2>
             <p className="text-gray-600 text-lg leading-relaxed mb-4">
               Maria Navin-Lassiter has spent over 20 years helping families
-              across Denver and the surrounding communities buy, sell, and invest
+              across Denver, Brighton, Westminster, Thornton, Arvada, Broomfield,
+              and the surrounding Colorado communities buy, sell, and invest
               in real estate. Her deep knowledge of the local market, combined
               with her genuine care for every client, makes her the agent people
               call first — and refer to friends and family.
@@ -155,7 +156,7 @@ export default function Home() {
           </ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { icon: "🏡", title: "Local Expertise", desc: "Raised in Westminster, Colorado, Maria has spent her life in this state and knows every neighborhood, school district, and hidden gem the Denver metro has to offer." },
+              { icon: "🏡", title: "Local Expertise", desc: "Raised in Westminster, Colorado, Maria knows every neighborhood, school district, and hidden gem across Denver, Brighton, Thornton, Arvada, Broomfield, and the entire Front Range." },
               { icon: "🤝", title: "Personal Service", desc: "You're not just a transaction. Maria takes time to understand your goals, your timeline, and what home truly means to you." },
               { icon: "📈", title: "Proven Results", desc: "20+ years of closings, negotiations, and happy clients. Maria knows how to get deals done — even in tough markets." },
               { icon: "📞", title: "Always Available", desc: "Real estate doesn't run 9 to 5. Maria is accessible, responsive, and will never leave you guessing about where things stand." },
