@@ -252,6 +252,7 @@ export default function Home() {
             <div className="bg-gray-50 rounded-3xl p-8 border border-gray-100 shadow-sm">
               <h3 className="font-playfair text-2xl font-bold text-[#1a2744] mb-6">Send a Message</h3>
               <form action="https://formspree.io/f/xpqkezor" method="POST" className="space-y-4">
+                <input type="hidden" name="_next" value="https://www.mariacoloradorealty.com/thank-you" />
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
