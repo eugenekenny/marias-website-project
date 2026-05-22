@@ -606,6 +606,140 @@
 
   .btn:hover { filter: brightness(1.08); }
   .area-card:hover .photo { transform: scale(1.04); }
+
+  /* ============================================================
+     MOBILE — show as a scrollable page, not a scaled deck
+     ============================================================ */
+  @media (max-width: 768px) {
+    html, body { overflow: auto; height: auto; }
+
+    #deck-shell {
+      position: relative;
+      height: auto;
+      min-height: 100vh;
+      display: block;
+      background: var(--navy-deep);
+    }
+
+    #deck-canvas {
+      width: 100%;
+      height: auto;
+      transform: none !important;
+    }
+
+    /* Show ALL sections as stacked scroll blocks */
+    #deck-canvas section {
+      position: relative;
+      width: 100%;
+      height: auto;
+      min-height: 0;
+      display: block !important;
+    }
+
+    .frame {
+      position: relative;
+      inset: auto;
+      padding: 48px 24px 60px;
+      flex-direction: column;
+      height: auto;
+    }
+
+    /* --- Nav --- */
+    .hero-nav .nav-pills { display: none; }
+    .brand-mark { font-size: 22px; }
+
+    /* --- Hero --- */
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    .hero-headline { font-size: 40px; line-height: 1.1; }
+    .hero-sub { font-size: 18px; }
+    .eyebrow { font-size: 12px; gap: 10px; }
+    .eyebrow::before { width: 28px; }
+
+    .arch {
+      width: 200px;
+      height: 270px;
+      border-radius: 100px 100px 12px 12px;
+      margin: 0 auto;
+    }
+    .arch img { height: 110%; }
+    .arch .badge {
+      right: -12px; bottom: 32px;
+      padding: 10px 14px;
+      min-width: 140px;
+      border-radius: 10px;
+    }
+    .arch .badge .b-label { font-size: 10px; }
+    .arch .badge .b-line { font-size: 16px; }
+
+    .stat-row {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+      padding-top: 16px;
+      max-width: 100%;
+    }
+    .stat-row .stat .n { font-size: 30px; }
+    .stat-row .stat .l { font-size: 10px; letter-spacing: 0.1em; }
+
+    .hero-cta-row { flex-direction: column; gap: 10px; margin-top: 24px; }
+    .btn {
+      font-size: 16px;
+      padding: 14px 24px;
+      width: 100%;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+
+    /* --- Service areas --- */
+    .section-head { flex-direction: column; gap: 16px; margin-bottom: 24px; }
+    .section-head .head-title { font-size: 34px; }
+    .section-head .head-sub { font-size: 16px; max-width: 100%; }
+
+    .areas-grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(3, 160px);
+      gap: 10px;
+    }
+    .area-card .city { font-size: 20px; }
+    .area-card .sub { font-size: 10px; margin-top: 4px; }
+    .area-card .arrow { width: 32px; height: 32px; font-size: 14px; top: 12px; right: 12px; }
+    .area-card .body-text { inset: auto 16px 16px 16px; }
+
+    /* --- CTA slide --- */
+    .cta-grid { grid-template-columns: 1fr; gap: 36px; }
+    .cta-head { font-size: 52px; }
+    .cta-sub { font-size: 18px; max-width: 100%; }
+    .contact-card { padding: 32px 24px; gap: 20px; }
+    .contact-card .c-value { font-size: 26px; }
+    .contact-card .c-cta { font-size: 16px; padding: 16px 24px; }
+
+    /* --- Footer chrome --- */
+    .corner {
+      position: relative;
+      bottom: auto; left: auto; right: auto;
+      padding: 0 24px 24px;
+      font-size: 10px;
+    }
+    .corner .rule { width: 20px; margin: 0 8px; }
+
+    /* --- Hide deck navigation (arrows + dots) --- */
+    #deck-dots, #arrow-prev, #arrow-next { display: none !important; }
+
+    /* --- Disable slide-in animations (all sections visible at once) --- */
+    section .eyebrow,
+    section .hero-headline,
+    section .stat-row,
+    section .hero-cta-row,
+    section .arch,
+    section .section-head,
+    section .areas-grid,
+    section .cta-head,
+    section .cta-sub,
+    section .contact-card { animation: none !important; opacity: 1 !important; transform: none !important; }
+  }
 </style>
 </head>
 <body>
