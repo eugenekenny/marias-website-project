@@ -995,18 +995,29 @@
   let current   = 0;
   const total   = slides.length;
 
-  /* ── Scale canvas to fill window ── */
+  /* ── Scale canvas to fill window (desktop only) ── */
+  function isMobile() { return window.innerWidth <= 768; }
+
   function scale() {
+    if (isMobile()) {
+      canvas.style.transform = 'none';
+      canvas.style.width = '100%';
+      canvas.style.height = 'auto';
+      return;
+    }
     const W = window.innerWidth;
     const H = window.innerHeight;
     const s = Math.min(W / 1920, H / 1080);
     canvas.style.transform = 'scale(' + s + ')';
+    canvas.style.width = '1920px';
+    canvas.style.height = '1080px';
   }
   scale();
   window.addEventListener('resize', scale);
 
-  /* ── Go to slide N ── */
+  /* ── Go to slide N (desktop only — mobile shows all slides) ── */
   function goTo(n) {
+    if (isMobile()) return;
     slides[current].classList.remove('active');
     dots[current].classList.remove('active');
     current = Math.max(0, Math.min(n, total - 1));
