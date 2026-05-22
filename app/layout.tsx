@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import { Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import "./design.css";
 
 const geist = Geist({
   variable: "--font-geist-sans",
@@ -101,7 +102,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
         />
       </head>
-      <body className="min-h-full flex flex-col">
+      <body>
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-1N6VFCJTTP"
