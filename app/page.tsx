@@ -233,14 +233,14 @@ export default function Home() {
           </div>
           <div className="areas-grid">
             {[
-              { name: "Brighton", tag: "North Metro", img: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=900&q=80", meta: "42 active listings · Avg $565K", delay: "" },
-              { name: "Westminster", tag: "Northwest Metro", img: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=900&q=80", meta: "61 active listings · Avg $612K", delay: "delay-1" },
-              { name: "Thornton", tag: "North Metro", img: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=900&q=80", meta: "78 active listings · Avg $548K", delay: "delay-2" },
-              { name: "Arvada", tag: "Northwest Metro", img: "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=900&q=80", meta: "54 active listings · Avg $685K", delay: "" },
-              { name: "Commerce City", tag: "Northeast Metro", img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=900&q=80", meta: "36 active listings · Avg $498K", delay: "delay-1" },
-              { name: "Northglenn", tag: "North Metro", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=80", meta: "29 active listings · Avg $475K", delay: "delay-2" },
+              { name: "Brighton", slug: "brighton", tag: "North Metro", img: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=900&q=80", meta: "42 active listings · Avg $565K", delay: "" },
+              { name: "Westminster", slug: "westminster", tag: "Northwest Metro", img: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=900&q=80", meta: "61 active listings · Avg $612K", delay: "delay-1" },
+              { name: "Thornton", slug: "thornton", tag: "North Metro", img: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=900&q=80", meta: "78 active listings · Avg $548K", delay: "delay-2" },
+              { name: "Arvada", slug: "arvada", tag: "Northwest Metro", img: "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=900&q=80", meta: "54 active listings · Avg $685K", delay: "" },
+              { name: "Commerce City", slug: "commerce-city", tag: "Northeast Metro", img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=900&q=80", meta: "36 active listings · Avg $498K", delay: "delay-1" },
+              { name: "Northglenn", slug: "northglenn", tag: "North Metro", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=80", meta: "29 active listings · Avg $475K", delay: "delay-2" },
             ].map((area) => (
-              <a key={area.name} className={`area-card reveal ${area.delay}`} href="#contact">
+              <a key={area.name} className={`area-card reveal ${area.delay}`} href={`/community/${area.slug}.html`}>
                 <img src={area.img} alt={`${area.name}, Colorado`} />
                 <div className="area-card-arrow">{arrowUpRight}</div>
                 <div className="area-card-content">
