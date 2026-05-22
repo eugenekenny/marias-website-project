@@ -6,10 +6,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="deck-stage.js"></script>
 <style>
   :root{
-    /* Maria's brand palette */
     --navy:        #1a2744;
     --navy-deep:   #121b30;
     --gold:        #B8960C;
@@ -20,7 +18,6 @@
     --ink-soft:    #485267;
     --white:       #ffffff;
 
-    /* Type scale for 1920×1080 */
     --type-display: 156px;
     --type-title:   96px;
     --type-h2:      72px;
@@ -33,15 +30,84 @@
     --pad-y:        72px;
   }
 
-  html, body { margin:0; padding:0; background:#0a0a0a; }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin:0; padding:0; background:#0a0a0a; width:100%; height:100%; overflow:hidden; }
   body { font-family: "Inter", system-ui, sans-serif; color: var(--ink); }
 
-  deck-stage section{
-    background: var(--white);
-    color: var(--ink);
-    overflow: hidden;
-    position: relative;
+  /* ── Deck shell ── */
+  #deck-shell {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0a0a0a;
+    user-select: none;
   }
+
+  /* The 1920×1080 canvas, scaled to fit the window */
+  #deck-canvas {
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+    overflow: hidden;
+    transform-origin: center center;
+  }
+
+  /* Each slide fills the full canvas */
+  #deck-canvas section {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: none;
+  }
+  #deck-canvas section.active {
+    display: block;
+  }
+
+  /* ── Nav dots ── */
+  #deck-dots {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 100;
+  }
+  .dot {
+    width: 10px; height: 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.35);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background .2s, width .2s;
+  }
+  .dot.active { background: var(--gold); width: 28px; }
+
+  /* ── Arrow nav ── */
+  .deck-arrow {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    width: 52px; height: 52px;
+    border-radius: 999px;
+    font-size: 22px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s;
+  }
+  .deck-arrow:hover { background: rgba(255,255,255,0.22); }
+  #arrow-prev { left: 20px; }
+  #arrow-next { right: 20px; }
+  .deck-arrow.hidden { opacity: 0; pointer-events: none; }
 
   /* === Type === */
   .serif { font-family: "Playfair Display", serif; }
@@ -79,7 +145,7 @@
     margin: 0;
   }
 
-  /* === Eyebrow (gold uppercase with leading rule) === */
+  /* === Eyebrow === */
   .eyebrow{
     display: inline-flex;
     align-items: center;
@@ -159,7 +225,6 @@
   }
   .hero-mountains svg{ width:100%; height:100%; display:block; }
 
-  /* Faint top-right gold orb (sun) */
   .hero-orb{
     position: absolute;
     top: -120px; right: -140px;
@@ -366,7 +431,6 @@
     font-size: 20px;
   }
 
-  /* Painted landscape gradient backgrounds for each city card */
   .photo.brighton{
     background: linear-gradient(160deg, #6e8aa8 0%, #4d6680 35%, #2c3b54 70%, #1a2744 100%);
   }
@@ -386,7 +450,6 @@
     background: linear-gradient(170deg, #c89c5b 0%, #8a6a3e 40%, #43365a 80%, #1a2744 100%);
   }
 
-  /* Pretend distant mountains via SVG overlay on each card */
   .area-card .mtn{
     position: absolute;
     left: 0; right: 0; bottom: 30%;
@@ -509,7 +572,6 @@
     margin: 0 16px; vertical-align: middle;
   }
 
-  /* Subtle navy-on-navy texture for CTA */
   .cta-bg-texture{
     position: absolute; inset: 0; z-index: 0;
     background:
@@ -517,7 +579,7 @@
       radial-gradient(ellipse at 10% 90%, rgba(216,181,58,0.06) 0%, transparent 55%);
   }
 
-  /* === Entrance animations === */
+  /* === Entrance animations (triggered when slide becomes active) === */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(32px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -531,251 +593,324 @@
     to   { opacity: 1; transform: translateX(0); }
   }
 
-  deck-stage section[data-deck-active] .eyebrow      { animation: fadeUp .55s ease both; animation-delay: .05s; }
-  deck-stage section[data-deck-active] .hero-headline { animation: fadeUp .65s ease both; animation-delay: .18s; }
-  deck-stage section[data-deck-active] .stat-row      { animation: fadeUp .6s ease both; animation-delay: .35s; }
-  deck-stage section[data-deck-active] .hero-cta-row  { animation: fadeUp .6s ease both; animation-delay: .5s; }
-  deck-stage section[data-deck-active] .arch          { animation: slideInRight .7s cubic-bezier(.22,.68,0,1.2) both; animation-delay: .25s; }
-  deck-stage section[data-deck-active] .section-head  { animation: fadeUp .6s ease both; animation-delay: .08s; }
-  deck-stage section[data-deck-active] .areas-grid    { animation: fadeUp .7s ease both; animation-delay: .28s; }
-  deck-stage section[data-deck-active] .cta-head      { animation: fadeUp .65s ease both; animation-delay: .18s; }
-  deck-stage section[data-deck-active] .cta-sub       { animation: fadeUp .6s ease both; animation-delay: .32s; }
-  deck-stage section[data-deck-active] .contact-card  { animation: slideInRight .7s cubic-bezier(.22,.68,0,1.2) both; animation-delay: .3s; }
+  section.active .eyebrow      { animation: fadeUp .55s ease both; animation-delay: .05s; }
+  section.active .hero-headline { animation: fadeUp .65s ease both; animation-delay: .18s; }
+  section.active .stat-row      { animation: fadeUp .6s ease both; animation-delay: .35s; }
+  section.active .hero-cta-row  { animation: fadeUp .6s ease both; animation-delay: .5s; }
+  section.active .arch          { animation: slideInRight .7s cubic-bezier(.22,.68,0,1.2) both; animation-delay: .25s; }
+  section.active .section-head  { animation: fadeUp .6s ease both; animation-delay: .08s; }
+  section.active .areas-grid    { animation: fadeUp .7s ease both; animation-delay: .28s; }
+  section.active .cta-head      { animation: fadeUp .65s ease both; animation-delay: .18s; }
+  section.active .cta-sub       { animation: fadeUp .6s ease both; animation-delay: .32s; }
+  section.active .contact-card  { animation: slideInRight .7s cubic-bezier(.22,.68,0,1.2) both; animation-delay: .3s; }
 
-  /* Btn hover polish */
   .btn:hover { filter: brightness(1.08); }
   .area-card:hover .photo { transform: scale(1.04); }
 </style>
 </head>
 <body>
 
-<deck-stage width="1920" height="1080">
+<div id="deck-shell">
+  <div id="deck-canvas">
 
-  <!-- ============================= 1 — HERO ============================= -->
-  <section data-label="01 Hero" class="bg-navy">
-    <div class="hero-bg"></div>
-    <div class="hero-orb"></div>
-    <div class="hero-mountains">
-      <svg viewBox="0 0 1920 600" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
-        <polygon points="0,600 0,380 220,180 380,320 580,80 780,280 980,160 1180,300 1380,140 1580,320 1780,200 1920,260 1920,600" fill="#ffffff" opacity="0.35"/>
-        <polygon points="0,600 0,460 180,360 340,420 540,300 740,400 940,340 1140,440 1340,360 1540,440 1740,380 1920,440 1920,600" fill="#ffffff" opacity="0.5"/>
-        <polygon points="0,600 0,540 220,500 460,520 700,490 940,520 1180,500 1420,530 1660,510 1920,520 1920,600" fill="#ffffff" opacity="0.7"/>
-      </svg>
-    </div>
-
-    <div class="frame">
-      <div class="hero-nav">
-        <div class="brand-mark">Maria <span>Navin-Lassiter</span></div>
-        <div class="nav-pills">
-          <span class="active">Home</span>
-          <span>About</span>
-          <span>Service Areas</span>
-          <span>Listings</span>
-          <span>Contact</span>
-        </div>
+    <!-- ============================= 1 — HERO ============================= -->
+    <section class="bg-navy active">
+      <div class="hero-bg"></div>
+      <div class="hero-orb"></div>
+      <div class="hero-mountains">
+        <svg viewBox="0 0 1920 600" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="0,600 0,380 220,180 380,320 580,80 780,280 980,160 1180,300 1380,140 1580,320 1780,200 1920,260 1920,600" fill="#ffffff" opacity="0.35"/>
+          <polygon points="0,600 0,460 180,360 340,420 540,300 740,400 940,340 1140,440 1340,360 1540,440 1740,380 1920,440 1920,600" fill="#ffffff" opacity="0.5"/>
+          <polygon points="0,600 0,540 220,500 460,520 700,490 940,520 1180,500 1420,530 1660,510 1920,520 1920,600" fill="#ffffff" opacity="0.7"/>
+        </svg>
       </div>
 
-      <div class="hero-grid">
-        <div>
-          <div class="eyebrow light" style="margin-bottom: 36px;">Century 21 Moore Real Estate</div>
-          <h1 class="hero-headline">
-            The Denver Metro is <em>home.</em><br/>
-            Let me help you<br/>
-            find <em>yours.</em>
-          </h1>
-
-          <div class="stat-row">
-            <div class="stat">
-              <div class="n">20+</div>
-              <div class="l">Years guiding<br/>Colorado families</div>
-            </div>
-            <div class="stat">
-              <div class="n">500+</div>
-              <div class="l">Homes closed<br/>across the metro</div>
-            </div>
-            <div class="stat">
-              <div class="n">6</div>
-              <div class="l">Communities I<br/>know by heart</div>
-            </div>
-          </div>
-
-          <div class="hero-cta-row">
-            <a class="btn" href="tel:+17204011889">Call (720) 401-1889 <span class="arrow">→</span></a>
-            <a class="btn ghost-light" href="https://mariacoloradorealty.com" target="_blank" rel="noopener">mariacoloradorealty.com</a>
+      <div class="frame">
+        <div class="hero-nav">
+          <div class="brand-mark">Maria <span>Navin-Lassiter</span></div>
+          <div class="nav-pills">
+            <span class="active">Home</span>
+            <span>About</span>
+            <span>Service Areas</span>
+            <span>Listings</span>
+            <span>Contact</span>
           </div>
         </div>
 
-        <div style="display:flex; justify-content:center; align-items:center;">
-          <div class="arch">
-            <img src="/Maria.jpg" style="object-position:55% 15%;" alt="Maria Navin-Lassiter"/>
-            <div class="badge">
-              <div class="b-label">Century 21 Moore</div>
-              <div class="b-line">Top-producing<br/>Colorado agent</div>
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow light" style="margin-bottom: 36px;">Century 21 Moore Real Estate</div>
+            <h1 class="hero-headline">
+              The Denver Metro is <em>home.</em><br/>
+              Let me help you<br/>
+              find <em>yours.</em>
+            </h1>
+
+            <div class="stat-row">
+              <div class="stat">
+                <div class="n">20+</div>
+                <div class="l">Years guiding<br/>Colorado families</div>
+              </div>
+              <div class="stat">
+                <div class="n">500+</div>
+                <div class="l">Homes closed<br/>across the metro</div>
+              </div>
+              <div class="stat">
+                <div class="n">6</div>
+                <div class="l">Communities I<br/>know by heart</div>
+              </div>
+            </div>
+
+            <div class="hero-cta-row">
+              <a class="btn" href="tel:+17204011889">Call (720) 401-1889 <span class="arrow">→</span></a>
+              <a class="btn ghost-light" href="https://mariacoloradorealty.com" target="_blank" rel="noopener">mariacoloradorealty.com</a>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:center; align-items:center;">
+            <div class="arch">
+              <img src="/Maria.jpg" style="object-position:55% 15%;" alt="Maria Navin-Lassiter"/>
+              <div class="badge">
+                <div class="b-label">Century 21 Moore</div>
+                <div class="b-line">Top-producing<br/>Colorado agent</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="corner">
-      <div><span>01</span><span class="rule"></span><span>Welcome</span></div>
-      <div><span>Maria Navin-Lassiter · Realtor®</span></div>
-    </div>
-  </section>
-
-  <!-- ============================= 2 — SERVICE AREAS ============================= -->
-  <section data-label="02 Service Areas" class="bg-warm">
-    <div class="frame">
-      <div class="section-head">
-        <div>
-          <div class="eyebrow" style="margin-bottom: 28px;">Where I work</div>
-          <h2 class="head-title">
-            Six communities<br/>
-            I <em>know by name.</em>
-          </h2>
-        </div>
-        <p class="head-sub">
-          North and northwest of Denver — the suburbs where I've spent two decades helping families plant roots. I'll walk you through the streets, the schools, and the seller's disclosure.
-        </p>
+      <div class="corner">
+        <div><span>01</span><span class="rule"></span><span>Welcome</span></div>
+        <div><span>Maria Navin-Lassiter · Realtor®</span></div>
       </div>
+    </section>
 
-      <div class="areas-grid">
-        <a class="area-card" href="/community/brighton.html">
-          <div class="photo brighton"></div>
-          <svg class="mtn" viewBox="0 0 400 100" preserveAspectRatio="none"><polygon points="0,100 0,55 60,30 120,60 200,15 280,50 340,25 400,55 400,100" fill="#1a2744" opacity="0.6"/></svg>
-          <div class="grad"></div>
-          <div class="arrow">↗</div>
-          <div class="body-text">
-            <div class="sub">Adams County</div>
-            <h3 class="city">Brighton</h3>
+    <!-- ============================= 2 — SERVICE AREAS ============================= -->
+    <section class="bg-warm">
+      <div class="frame">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow" style="margin-bottom: 28px;">Where I work</div>
+            <h2 class="head-title">
+              Six communities<br/>
+              I <em>know by name.</em>
+            </h2>
           </div>
-        </a>
-
-        <a class="area-card" href="/community/westminster.html">
-          <div class="photo westminster"></div>
-          <svg class="mtn" viewBox="0 0 400 100" preserveAspectRatio="none"><polygon points="0,100 0,60 80,20 160,55 240,30 320,60 400,40 400,100" fill="#1a2744" opacity="0.6"/></svg>
-          <div class="grad"></div>
-          <div class="arrow">↗</div>
-          <div class="body-text">
-            <div class="sub">Jefferson · Adams</div>
-            <h3 class="city">Westminster</h3>
-          </div>
-        </a>
-
-        <a class="area-card" href="/community/thornton.html">
-          <div class="photo thornton"></div>
-          <svg class="mtn" viewBox="0 0 400 100" preserveAspectRatio="none"><polygon points="0,100 0,50 100,25 200,55 280,30 360,55 400,45 400,100" fill="#1a2744" opacity="0.6"/></svg>
-          <div class="grad"></div>
-          <div class="arrow">↗</div>
-          <div class="body-text">
-            <div class="sub">Adams County</div>
-            <h3 class="city">Thornton</h3>
-          </div>
-        </a>
-
-        <a class="area-card" href="/community/arvada.html">
-          <div class="photo arvada"></div>
-          <svg class="mtn" viewBox="0 0 400 100" preserveAspectRatio="none"><polygon points="0,100 0,40 80,10 160,45 240,15 320,50 400,30 400,100" fill="#1a2744" opacity="0.6"/></svg>
-          <div class="grad"></div>
-          <div class="arrow">↗</div>
-          <div class="body-text">
-            <div class="sub">Jefferson County</div>
-            <h3 class="city">Arvada</h3>
-          </div>
-        </a>
-
-        <a class="area-card" href="/community/commerce-city.html">
-          <div class="photo commerce"></div>
-          <svg class="mtn" viewBox="0 0 400 100" preserveAspectRatio="none"><polygon points="0,100 0,55 120,30 220,60 320,35 400,55 400,100" fill="#1a2744" opacity="0.6"/></svg>
-          <div class="grad"></div>
-          <div class="arrow">↗</div>
-          <div class="body-text">
-            <div class="sub">Adams County</div>
-            <h3 class="city">Commerce City</h3>
-          </div>
-        </a>
-
-        <a class="area-card" href="/community/northglenn.html">
-          <div class="photo northglenn"></div>
-          <svg class="mtn" viewBox="0 0 400 100" preserveAspectRatio="none"><polygon points="0,100 0,45 100,15 200,50 300,20 400,45 400,100" fill="#1a2744" opacity="0.6"/></svg>
-          <div class="grad"></div>
-          <div class="arrow">↗</div>
-          <div class="body-text">
-            <div class="sub">Adams County</div>
-            <h3 class="city">Northglenn</h3>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <div class="corner">
-      <div><span>02</span><span class="rule"></span><span>Service Areas</span></div>
-      <div><span>Maria Navin-Lassiter · Century 21 Moore</span></div>
-    </div>
-  </section>
-
-  <!-- ============================= 3 — CTA / CONTACT ============================= -->
-  <section data-label="03 Contact" class="bg-navy">
-    <div class="cta-bg-texture"></div>
-    <div class="hero-mountains" style="opacity: 0.08;">
-      <svg viewBox="0 0 1920 600" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
-        <polygon points="0,600 0,440 240,300 460,420 700,260 940,400 1180,300 1420,420 1660,320 1920,400 1920,600" fill="#ffffff"/>
-      </svg>
-    </div>
-
-    <div class="frame">
-      <div class="cta-grid">
-        <div class="cta-left">
-          <div class="eyebrow light">Your next move</div>
-          <h2 class="cta-head">
-            What's your<br/>
-            home <em>worth?</em>
-          </h2>
-          <p class="cta-sub">
-            Twenty years of finding Colorado families their forever home — and helping sellers leave on the right terms. Let's start with a real conversation, not a form letter.
+          <p class="head-sub">
+            North and northwest of Denver — the suburbs where I've spent two decades helping families plant roots. I'll walk you through the streets, the schools, and the seller's disclosure.
           </p>
-
-          <div style="display: flex; gap: 40px; margin-top: 56px; max-width: 720px;">
-            <div>
-              <div style="font-family: 'Playfair Display', serif; font-size: 72px; line-height: 1; color: var(--gold-soft); font-weight: 500;">20+</div>
-              <div style="margin-top: 12px; font-size: 16px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.7); font-weight: 600;">Years of know-how</div>
-            </div>
-            <div>
-              <div style="font-family: 'Playfair Display', serif; font-size: 72px; line-height: 1; color: var(--gold-soft); font-weight: 500;">1:1</div>
-              <div style="margin-top: 12px; font-size: 16px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.7); font-weight: 600;">No team, no call center</div>
-            </div>
-            <div>
-              <div style="font-family: 'Playfair Display', serif; font-size: 72px; line-height: 1; color: var(--gold-soft); font-weight: 500;">★★★★★</div>
-              <div style="margin-top: 12px; font-size: 16px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.7); font-weight: 600;">Century 21 Moore</div>
-            </div>
-          </div>
         </div>
 
-        <div class="contact-card">
-          <div class="c-row">
-            <div class="c-label">Call or text</div>
-            <div class="c-value">(720) 401-1889</div>
-          </div>
-          <div class="c-row">
-            <div class="c-label">Website</div>
-            <div class="c-value">mariacoloradorealty.com</div>
-          </div>
-          <div class="c-row">
-            <div class="c-label">Email</div>
-            <div class="c-value">contact@<br/>mariacoloradorealty.com</div>
-          </div>
-          <a class="c-cta" href="/#valuation">Get a free home valuation <span>→</span></a>
+        <div class="areas-grid">
+          <a class="area-card" href="/community/brighton.html">
+            <div class="photo brighton"></div>
+            <svg class="mtn" viewBox="0 0 400 100" preserveAspectRatio="none"><polygon points="0,100 0,55 60,30 120,60 200,15 280,50 340,25 400,55 400,100" fill="#1a2744" opacity="0.6"/></svg>
+            <div class="grad"></div>
+            <div class="arrow">↗</div>
+            <div class="body-text">
+              <div class="sub">Adams County</div>
+              <h3 class="city">Brighton</h3>
+            </div>
+          </a>
+
+          <a class="area-card" href="/community/westminster.html">
+            <div class="photo westminster"></div>
+            <svg class="mtn" viewBox="0 0 400 100" preserveAspectRatio="none"><polygon points="0,100 0,60 80,20 160,55 240,30 320,60 400,40 400,100" fill="#1a2744" opacity="0.6"/></svg>
+            <div class="grad"></div>
+            <div class="arrow">↗</div>
+            <div class="body-text">
+              <div class="sub">Jefferson · Adams</div>
+              <h3 class="city">Westminster</h3>
+            </div>
+          </a>
+
+          <a class="area-card" href="/community/thornton.html">
+            <div class="photo thornton"></div>
+            <svg class="mtn" viewBox="0 0 400 100" preserveAspectRatio="none"><polygon points="0,100 0,50 100,25 200,55 280,30 360,55 400,45 400,100" fill="#1a2744" opacity="0.6"/></svg>
+            <div class="grad"></div>
+            <div class="arrow">↗</div>
+            <div class="body-text">
+              <div class="sub">Adams County</div>
+              <h3 class="city">Thornton</h3>
+            </div>
+          </a>
+
+          <a class="area-card" href="/community/arvada.html">
+            <div class="photo arvada"></div>
+            <svg class="mtn" viewBox="0 0 400 100" preserveAspectRatio="none"><polygon points="0,100 0,40 80,10 160,45 240,15 320,50 400,30 400,100" fill="#1a2744" opacity="0.6"/></svg>
+            <div class="grad"></div>
+            <div class="arrow">↗</div>
+            <div class="body-text">
+              <div class="sub">Jefferson County</div>
+              <h3 class="city">Arvada</h3>
+            </div>
+          </a>
+
+          <a class="area-card" href="/community/commerce-city.html">
+            <div class="photo commerce"></div>
+            <svg class="mtn" viewBox="0 0 400 100" preserveAspectRatio="none"><polygon points="0,100 0,55 120,30 220,60 320,35 400,55 400,100" fill="#1a2744" opacity="0.6"/></svg>
+            <div class="grad"></div>
+            <div class="arrow">↗</div>
+            <div class="body-text">
+              <div class="sub">Adams County</div>
+              <h3 class="city">Commerce City</h3>
+            </div>
+          </a>
+
+          <a class="area-card" href="/community/northglenn.html">
+            <div class="photo northglenn"></div>
+            <svg class="mtn" viewBox="0 0 400 100" preserveAspectRatio="none"><polygon points="0,100 0,45 100,15 200,50 300,20 400,45 400,100" fill="#1a2744" opacity="0.6"/></svg>
+            <div class="grad"></div>
+            <div class="arrow">↗</div>
+            <div class="body-text">
+              <div class="sub">Adams County</div>
+              <h3 class="city">Northglenn</h3>
+            </div>
+          </a>
         </div>
       </div>
-    </div>
 
-    <div class="corner">
-      <div><span>03</span><span class="rule"></span><span>Get in touch</span></div>
-      <div><span>Century 21 Moore Real Estate · Colorado</span></div>
-    </div>
-  </section>
+      <div class="corner">
+        <div><span>02</span><span class="rule"></span><span>Service Areas</span></div>
+        <div><span>Maria Navin-Lassiter · Century 21 Moore</span></div>
+      </div>
+    </section>
 
-</deck-stage>
+    <!-- ============================= 3 — CTA / CONTACT ============================= -->
+    <section class="bg-navy">
+      <div class="cta-bg-texture"></div>
+      <div class="hero-mountains" style="opacity: 0.08;">
+        <svg viewBox="0 0 1920 600" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="0,600 0,440 240,300 460,420 700,260 940,400 1180,300 1420,420 1660,320 1920,400 1920,600" fill="#ffffff"/>
+        </svg>
+      </div>
+
+      <div class="frame">
+        <div class="cta-grid">
+          <div class="cta-left">
+            <div class="eyebrow light">Your next move</div>
+            <h2 class="cta-head">
+              What's your<br/>
+              home <em>worth?</em>
+            </h2>
+            <p class="cta-sub">
+              Twenty years of finding Colorado families their forever home — and helping sellers leave on the right terms. Let's start with a real conversation, not a form letter.
+            </p>
+
+            <div style="display: flex; gap: 40px; margin-top: 56px; max-width: 720px;">
+              <div>
+                <div style="font-family: 'Playfair Display', serif; font-size: 72px; line-height: 1; color: var(--gold-soft); font-weight: 500;">20+</div>
+                <div style="margin-top: 12px; font-size: 16px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.7); font-weight: 600;">Years of know-how</div>
+              </div>
+              <div>
+                <div style="font-family: 'Playfair Display', serif; font-size: 72px; line-height: 1; color: var(--gold-soft); font-weight: 500;">1:1</div>
+                <div style="margin-top: 12px; font-size: 16px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.7); font-weight: 600;">No team, no call center</div>
+              </div>
+              <div>
+                <div style="font-family: 'Playfair Display', serif; font-size: 72px; line-height: 1; color: var(--gold-soft); font-weight: 500;">★★★★★</div>
+                <div style="margin-top: 12px; font-size: 16px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.7); font-weight: 600;">Century 21 Moore</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-card">
+            <div class="c-row">
+              <div class="c-label">Call or text</div>
+              <div class="c-value">(720) 401-1889</div>
+            </div>
+            <div class="c-row">
+              <div class="c-label">Website</div>
+              <div class="c-value">mariacoloradorealty.com</div>
+            </div>
+            <div class="c-row">
+              <div class="c-label">Email</div>
+              <div class="c-value">contact@<br/>mariacoloradorealty.com</div>
+            </div>
+            <a class="c-cta" href="/#valuation">Get a free home valuation <span>→</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="corner">
+        <div><span>03</span><span class="rule"></span><span>Get in touch</span></div>
+        <div><span>Century 21 Moore Real Estate · Colorado</span></div>
+      </div>
+    </section>
+
+  </div><!-- /deck-canvas -->
+</div><!-- /deck-shell -->
+
+<!-- Nav dots -->
+<div id="deck-dots">
+  <button class="dot active" onclick="goTo(0)" aria-label="Slide 1"></button>
+  <button class="dot" onclick="goTo(1)" aria-label="Slide 2"></button>
+  <button class="dot" onclick="goTo(2)" aria-label="Slide 3"></button>
+</div>
+
+<!-- Arrow buttons -->
+<button class="deck-arrow hidden" id="arrow-prev" onclick="prev()" aria-label="Previous slide">&#8592;</button>
+<button class="deck-arrow" id="arrow-next" onclick="next()" aria-label="Next slide">&#8594;</button>
+
+<script>
+(function() {
+  const slides  = document.querySelectorAll('#deck-canvas section');
+  const dots    = document.querySelectorAll('.dot');
+  const btnPrev = document.getElementById('arrow-prev');
+  const btnNext = document.getElementById('arrow-next');
+  const canvas  = document.getElementById('deck-canvas');
+  let current   = 0;
+  const total   = slides.length;
+
+  /* ── Scale canvas to fill window ── */
+  function scale() {
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+    const s = Math.min(W / 1920, H / 1080);
+    canvas.style.transform = 'scale(' + s + ')';
+  }
+  scale();
+  window.addEventListener('resize', scale);
+
+  /* ── Go to slide N ── */
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = Math.max(0, Math.min(n, total - 1));
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+    btnPrev.classList.toggle('hidden', current === 0);
+    btnNext.classList.toggle('hidden', current === total - 1);
+  }
+
+  function next() { if (current < total - 1) goTo(current + 1); }
+  function prev() { if (current > 0)         goTo(current - 1); }
+
+  /* Make these available globally for the onclick attributes */
+  window.goTo = goTo;
+  window.next = next;
+  window.prev = prev;
+
+  /* ── Keyboard ── */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown'  || e.key === 'PageDown' || e.key === ' ') {
+      e.preventDefault(); next();
+    }
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp'    || e.key === 'PageUp') {
+      e.preventDefault(); prev();
+    }
+    if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+    if (e.key === 'End')  { e.preventDefault(); goTo(total - 1); }
+  });
+
+  /* ── Touch swipe ── */
+  let touchX = 0;
+  document.addEventListener('touchstart', function(e) { touchX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend',   function(e) {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) { dx < 0 ? next() : prev(); }
+  }, { passive: true });
+})();
+</script>
 
 </body>
 </html>
