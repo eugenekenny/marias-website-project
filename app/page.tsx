@@ -88,6 +88,7 @@ export default function Home() {
             <a href="#listings">Listings</a>
             <a href="#spotlights">Communities</a>
             <a href="#testimonials">Reviews</a>
+            <a href="/about">Full Bio</a>
           </nav>
           <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
             <a className="nav-phone" href="tel:7204011889">
